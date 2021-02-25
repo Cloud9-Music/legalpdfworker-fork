@@ -1,0 +1,31 @@
+name: Build and push to Azure registry (test)
+
+on:
+  push:
+    branches: [ docker/test ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Login to Azure
+        uses: azure/docker-login@v1
+        with:
+          login-server: kodikas.azurecr.io
+          username: ${{ secrets.AZURE_DOCKER_USERNAME }}
+          password: ${{ secrets.AZURE_DOCKER_PASSWORD }}
+        
+      - name: Build, tag, and push image to Azure registry
+        env:
+          REGISTRY: kodikas.azurecr.io
+          REPOSITORY: legalthings/pdfworker
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:test .
+          docker push $REGISTRY/$REPOSITORY --all-tags

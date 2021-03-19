@@ -20,6 +20,10 @@ jobs:
           login-server: kodikas.azurecr.io
           username: ${{ secrets.AZURE_DOCKER_USERNAME }}
           password: ${{ secrets.AZURE_DOCKER_PASSWORD }}
+
+      - name: Enable docker cache
+        uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
         
       - name: Build, tag, and push image to Azure registry
         env:

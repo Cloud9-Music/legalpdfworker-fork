@@ -13,7 +13,7 @@
     "multer": "^1.1.0",
     "uuid": "^2.0.2",
     "winston": "^2.2.0",
-    "winston-rollbar": "^0.2.0"
+    "winston-transport-rollbar": "^2.4.0"
   },
   "devDependencies": {
     "eslint": "^1.10.3",
